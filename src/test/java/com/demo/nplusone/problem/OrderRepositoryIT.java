@@ -14,6 +14,7 @@ import com.demo.nplusone.solution.OrderDto;
 
 import org.hibernate.Session;
 import org.hibernate.stat.Statistics;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -31,14 +32,15 @@ public class OrderRepositoryIT {
         stat = entityManager.unwrap(Session.class).getSessionFactory().getStatistics();
     }
 
-    @Test
-    public void countNoOfOrders() {
-        assertEquals(10, orderRepository.count());
-        assertEquals(1, stat.getPrepareStatementCount());
-        assertEquals(0, stat.getEntityLoadCount());
+    @AfterEach
+    public void afterEach() {
+        // needed because stats accumulates after each test. 
+        stat.clear();
     }
 
     // You only want order data, but you get lines too. 
+    // select * from order left outer join line 
+    // no n+1 issue
     @Test
     public void findById() {
         Optional<Order> order = orderRepository.findById(1l);
@@ -46,28 +48,17 @@ public class OrderRepositoryIT {
         assertEquals(1, stat.getPrepareStatementCount());
     }
 
-    
-    //Runs only 1 query and doesnot fetch lines. NO entities loaded.
-    @Test
-    public void findOrderByIdDtoProjection() {
-        OrderDto order = orderRepository.findOrderByIdDtoProjection(1l);
-        assertNotNull(order);
-        assertEquals(1, stat.getPrepareStatementCount());
-        assertEquals(0, stat.getEntityLoadCount());
-    }
-
-    // n+1 issue
+    // n+1 issue on a single order query
     @Test
     public void findByOrderNbr() {
-        List<Order> orders = orderRepository.findByOrderNbr("order-nbr-1");
-        assertEquals(2, orders.size());
-        assertEquals(23, stat.getEntityLoadCount());
-        assertEquals(3, stat.getPrepareStatementCount());
+        Order order = orderRepository.findByOrderNbr("order-nbr-1");
+        assertEquals(11, stat.getEntityLoadCount());
+        assertEquals(2, stat.getPrepareStatementCount());
     }
 
     // n+1 issue
     @Test
-    public void test() {
+    public void findAll() {
         List<Order> orders = orderRepository.findAll();
         assertEquals(10, orders.size());
         assertEquals(110, stat.getEntityLoadCount());
@@ -76,14 +67,30 @@ public class OrderRepositoryIT {
         assertEquals(11, stat.getPrepareStatementCount());//11
     }
 
-    //n+1 solution, runs only one query but there are 100 orders
+    // n+1 on a list of orders query
     @Test
-    public void findOrdersAsList() {
-        List<Order> orders = orderRepository.findOrdersAsList();
+    public void findByCustNbr() {
+        List<Order> orders = orderRepository.findByCustNbr("1a");
+        assertEquals(4, orders.size());
+        assertEquals(5, stat.getPrepareStatementCount());
+        assertEquals(45, stat.getEntityLoadCount());
+    }
+
+    @Test
+    public void findByCustNbrFetch() {
+        List<Order> orders = orderRepository.findByCustNbrFetch("1a");
+        assertEquals(4, orders.size());
         assertEquals(1, stat.getPrepareStatementCount());
-        assertEquals(0, stat.getCollectionFetchCount());
-        assertEquals(100, orders.size());
-        assertEquals(110, stat.getEntityLoadCount());
+        assertEquals(45, stat.getEntityLoadCount());
+    }
+
+    //Runs only 1 query and doesnot fetch lines. NO entities loaded.
+    @Test
+    public void findOrderByIdDtoProjection() {
+        OrderDto order = orderRepository.findOrderByIdDtoProjection(1l);
+        assertNotNull(order);
+        assertEquals(1, stat.getPrepareStatementCount());
+        assertEquals(0, stat.getEntityLoadCount());
     }
 
     // n+1 solution, runs only one query and 10 orders returned
@@ -94,8 +101,6 @@ public class OrderRepositoryIT {
     public void findOrdersAsListWithDistinctKeyword() {
         List<Order> orders = orderRepository.findOrdersAsListWithDistinctKeyword();
         assertEquals(1, stat.getPrepareStatementCount());
-        assertEquals(0, stat.getCollectionFetchCount());
-        assertEquals(0, stat.getCollectionFetchCount());
         assertEquals(10, orders.size());
         assertEquals(110, stat.getEntityLoadCount());
     }

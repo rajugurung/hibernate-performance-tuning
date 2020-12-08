@@ -1,16 +1,16 @@
 -- Data generate from https://www.generatedata.com
 -- 10 orders, 100 lines, 100 attachments, 100 audits
 
-INSERT INTO orders (id,order_nbr) VALUES (1,'order-nbr-1');
-INSERT INTO orders (id,order_nbr) VALUES (2,'order-nbr-1');
-INSERT INTO orders (id,order_nbr) VALUES (3,'221B8C6F-21D9-A2A9-4FD4-A76A1E200B3F');
-INSERT INTO orders (id,order_nbr) VALUES (4,'6E62F8A1-9AA8-E5ED-C19E-03772B0E069B');
-INSERT INTO orders (id,order_nbr) VALUES (5,'5407C0AA-DB7D-9D6F-B074-1B38E432436B');
-INSERT INTO orders (id,order_nbr) VALUES (6,'A7B63364-6691-0D00-59F3-D2DBFAA4637F');
-INSERT INTO orders (id,order_nbr) VALUES (7,'DE72263B-0DBD-7958-495A-37716FB43D40');
-INSERT INTO orders (id,order_nbr) VALUES (8,'07848854-C841-38BA-2E28-0419FF00DE18');
-INSERT INTO orders (id,order_nbr) VALUES (9,'6745F28C-32FC-34D4-F4BD-8646DE8B0153');
-INSERT INTO orders (id,order_nbr) VALUES (10,'ED511B8B-7E2F-E312-6E98-38B53007CE40');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (1,'order-nbr-1','1a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (2,'order-nbr-2','1a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (3,'order-nbr-3','1a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (4,'6E62F8A1-9AA8-E5ED-C19E-03772B0E069B','1a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (5,'5407C0AA-DB7D-9D6F-B074-1B38E432436B','2a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (6,'A7B63364-6691-0D00-59F3-D2DBFAA4637F','2a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (7,'DE72263B-0DBD-7958-495A-37716FB43D40','2a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (8,'07848854-C841-38BA-2E28-0419FF00DE18','2a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (9,'6745F28C-32FC-34D4-F4BD-8646DE8B0153','2a');
+INSERT INTO orders (id,order_nbr,cust_nbr) VALUES (10,'ED511B8B-7E2F-E312-6E98-38B53007CE40','2a');
 
 INSERT INTO line (id,line_nbr,order_id) VALUES (1,'1477482A-1C7E-3839-D24F-B4C58D174506',10);
 INSERT INTO line (id,line_nbr,order_id) VALUES (2,'3C86F0BB-8FBF-D7F3-660D-504C8C670C5C',5);

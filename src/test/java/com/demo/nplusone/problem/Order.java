@@ -22,6 +22,7 @@ public class Order {
     @Id
     private Long id;
     private String orderNbr;
+    private String custNbr;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
     private List<Line> lines = new ArrayList<>();
