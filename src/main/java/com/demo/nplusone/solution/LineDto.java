@@ -1,19 +1,16 @@
 package com.demo.nplusone.solution;
 
-import java.util.List;
-
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class OrderDto {
+public class LineDto {
     private Long id;
-    private String orderNbr;
-    private List<LineDto> lines;
+    private String lineNbr;
+    
 }

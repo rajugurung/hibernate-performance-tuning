@@ -1,4 +1,4 @@
-package com.demo.nplusone.problem;
+package com.demo.nplusone.eager;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

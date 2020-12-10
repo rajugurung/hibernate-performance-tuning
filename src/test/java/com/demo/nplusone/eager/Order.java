@@ -1,4 +1,4 @@
-package com.demo.nplusone.problem;
+package com.demo.nplusone.eager;
 
 import java.util.ArrayList;
 import java.util.List;

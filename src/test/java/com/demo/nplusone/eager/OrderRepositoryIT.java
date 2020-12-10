@@ -1,7 +1,7 @@
-package com.demo.nplusone.problem;
+package com.demo.nplusone.eager;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,7 +10,7 @@ import java.util.Set;
 import javax.annotation.Resource;
 import javax.persistence.EntityManager;
 
-import com.demo.nplusone.solution.OrderDto;
+import com.demo.common.OrderView;
 
 import org.hibernate.Session;
 import org.hibernate.stat.Statistics;
@@ -37,6 +37,33 @@ public class OrderRepositoryIT {
         // needed because stats accumulates after each test. 
         stat.clear();
     }
+
+   // n+1 on a list of orders query
+    @Test
+    public void findByCustNbr() {
+        List<Order> orders = orderRepository.findByCustNbr("1a");
+        assertEquals(4, orders.size());
+        assertEquals(5, stat.getPrepareStatementCount());
+        assertEquals(45, stat.getEntityLoadCount());// 41 lines + 4 orders
+    }
+
+    @Test
+    public void findByCustNbrFetch() {
+        Set<Order> orders = orderRepository.findByCustNbrFetch("1a");
+        assertEquals(4, orders.size());
+        assertEquals(1, stat.getPrepareStatementCount());
+        assertEquals(45, stat.getEntityLoadCount());
+    }
+
+    @Test
+    public void findByCustNbrProjection() {
+        List<OrderView> orders = orderRepository.findByCustNbrProjection("1a");
+        assertEquals(4, orders.size());           
+        assertEquals(1, stat.getPrepareStatementCount());
+        assertEquals(0, stat.getEntityLoadCount());
+    }
+
+    /////////////////////////////////////////////////////////////////////////////////
 
     // You only want order data, but you get lines too. 
     // select * from order left outer join line 
@@ -67,31 +94,14 @@ public class OrderRepositoryIT {
         assertEquals(11, stat.getPrepareStatementCount());//11
     }
 
-    // n+1 on a list of orders query
-    @Test
-    public void findByCustNbr() {
-        List<Order> orders = orderRepository.findByCustNbr("1a");
-        assertEquals(4, orders.size());
-        assertEquals(5, stat.getPrepareStatementCount());
-        assertEquals(45, stat.getEntityLoadCount());
-    }
-
-    @Test
-    public void findByCustNbrFetch() {
-        List<Order> orders = orderRepository.findByCustNbrFetch("1a");
-        assertEquals(4, orders.size());
-        assertEquals(1, stat.getPrepareStatementCount());
-        assertEquals(45, stat.getEntityLoadCount());
-    }
-
     //Runs only 1 query and doesnot fetch lines. NO entities loaded.
-    @Test
-    public void findOrderByIdDtoProjection() {
-        OrderDto order = orderRepository.findOrderByIdDtoProjection(1l);
-        assertNotNull(order);
-        assertEquals(1, stat.getPrepareStatementCount());
-        assertEquals(0, stat.getEntityLoadCount());
-    }
+    // @Test
+    // public void findOrderByIdDtoProjection() {
+    //     OrderDto order = orderRepository.findOrderByIdDtoProjection(1l);
+    //     assertNotNull(order);
+    //     assertEquals(1, stat.getPrepareStatementCount());
+    //     assertEquals(0, stat.getEntityLoadCount());
+    // }
 
     // n+1 solution, runs only one query and 10 orders returned
     // Using distinct key is probably more efficient than using set like below. Because db probably
