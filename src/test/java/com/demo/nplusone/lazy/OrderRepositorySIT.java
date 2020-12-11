@@ -1,4 +1,4 @@
-package com.demo.nplusone.solution;
+package com.demo.nplusone.lazy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,11 +26,13 @@ public class OrderRepositorySIT {
     public void beforeEach() {
         stat = entityManager.unwrap(Session.class).getSessionFactory().getStatistics();
     }
+
+    // does not join on line because it's lazy
     @Test
     public void test() {
-        Optional<OrderNPlusOneS> order = orderRepositoryS.findById(1l);
+        Optional<Order> order = orderRepositoryS.findById(1l);
         assertTrue(order.isPresent());
-        assertEquals(1, stat.getEntityLoadCount());//left joins order and line
+        assertEquals(1, stat.getEntityLoadCount());
         assertEquals(1, stat.getPrepareStatementCount());
     }
     

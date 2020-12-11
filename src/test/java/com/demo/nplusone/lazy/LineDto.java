@@ -1,4 +1,4 @@
-package com.demo.nplusone.solution;
+package com.demo.nplusone.lazy;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

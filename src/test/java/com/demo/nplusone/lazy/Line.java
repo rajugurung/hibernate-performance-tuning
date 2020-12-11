@@ -1,4 +1,4 @@
-package com.demo.nplusone.solution;
+package com.demo.nplusone.lazy;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -10,16 +10,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+@Entity(name = "LineNPlusOneLazy")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class LineNPlusOneS {
+@NoArgsConstructor
+public class Line {
     @Id
     private Long id;
     private String lineNbr;
 
     @ToString.Exclude
     @ManyToOne(fetch = FetchType.LAZY)
-    private OrderNPlusOneS order;
+    private Order order;
 }

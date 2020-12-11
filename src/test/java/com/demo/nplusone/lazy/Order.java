@@ -1,4 +1,4 @@
-package com.demo.nplusone.solution;
+package com.demo.nplusone.lazy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,26 +12,26 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "OrderNPlusOneLazy")
 @Table(name = "ORDERS")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class OrderNPlusOneS {
+@NoArgsConstructor
+public class Order {
     @Id
     private Long id;
     private String orderNbr;
 
     @OneToMany(mappedBy = "order")
-    private List<LineNPlusOneS> lines = new ArrayList<>();
+    private List<Line> lines = new ArrayList<>();
     @OneToMany(mappedBy = "order")
 
-    public void addLine(LineNPlusOneS line) {
+    public void addLine(Line line) {
         lines.add(line);
         line.setOrder(this);
     }
 
-    public void remove(LineNPlusOneS line) {
+    public void remove(Line line) {
         lines.remove(line);
         line.setOrder(null);
     }

@@ -1,4 +1,4 @@
-package com.demo.nplusone.solution;
+package com.demo.nplusone.lazy;
 
 import java.util.List;
 
