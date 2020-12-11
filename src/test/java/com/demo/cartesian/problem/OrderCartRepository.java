@@ -7,24 +7,24 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-public interface OrderCartRepository extends JpaRepository<OrderCart, Long> {
+public interface OrderCartRepository extends JpaRepository<Order, Long> {
     
     // returns 11085 records
     @Query(value = "Select o from OrderCart o left join fetch o.lines left join fetch o.audits left join fetch o.attachments " +
                     "where o.id >= :fromOrdreId and o.id <= :toOrderId")
-    List<OrderCart> findOrderByOrderIdBetween(@Param("fromOrdreId") Long fromOrderId,
+    List<Order> findOrderByOrderIdBetween(@Param("fromOrdreId") Long fromOrderId,
             @Param("toOrderId") Long toOrderId);
     
     // returns 10 orders, the sql query generated is same. So i think db still returns 11085 records, java removes duplicates
     @Query(value = "Select o from OrderCart o left join fetch o.lines left join fetch o.audits left join fetch o.attachments " +
                     "where o.id >= :fromOrdreId and o.id <= :toOrderId")
-    Set<OrderCart> findOrderByOrderIdBetween_returnsSet(@Param("fromOrdreId") Long fromOrderId,
+    Set<Order> findOrderByOrderIdBetween_returnsSet(@Param("fromOrdreId") Long fromOrderId,
             @Param("toOrderId") Long toOrderId);
     
     // returns 10 orders using distinct, but distincts are usually more expensive
     // https://webbtechsolutions.com/2009/07/24/the-effects-of-distinct-in-a-sql-query/#:~:text=The%20fact%20that%20the%20resultset,is%20returned%20to%20the%20user.
     @Query(value = "Select distinct o from OrderCart o left join fetch o.lines left join fetch o.audits left join fetch o.attachments " +
             "where o.id >= :fromOrdreId and o.id <= :toOrderId")
-    List<OrderCart> findOrderByOrderIdBetween_useDistinct(@Param("fromOrdreId") Long fromOrderId, @Param("toOrderId") Long toOrderId);              
+    List<Order> findOrderByOrderIdBetween_useDistinct(@Param("fromOrdreId") Long fromOrderId, @Param("toOrderId") Long toOrderId);              
     
 }

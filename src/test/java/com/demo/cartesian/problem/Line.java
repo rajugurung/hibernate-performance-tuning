@@ -11,12 +11,12 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
+@Entity(name = "LineCart")
 @Table(name = "LINE")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class LineCart {
+@AllArgsConstructor
+public class Line {
     @Id
     private Long id;
     private String lineNbr;
@@ -24,5 +24,5 @@ public class LineCart {
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    private OrderCart order;
+    private Order order;
 }

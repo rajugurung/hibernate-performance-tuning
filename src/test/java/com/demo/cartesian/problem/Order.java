@@ -13,49 +13,49 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+@Entity(name = "OrderCart")
 @Table(name = "ORDERS")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class OrderCart {
+public class Order {
     @Id
     private Long id;
     private String orderNbr;
 
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
-    private Set<LineCart> lines = new HashSet<>();
+    private Set<Line> lines = new HashSet<>();
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
-    private Set<AttachmentCart> attachments = new HashSet<>();
+    private Set<Attachment> attachments = new HashSet<>();
     @OneToMany(mappedBy = "order", fetch = FetchType.EAGER)
-    private Set<AuditCart> audits = new HashSet<>();
+    private Set<Audit> audits = new HashSet<>();
 
-    public void addLine(LineCart line) {
+    public void addLine(Line line) {
         lines.add(line);
         line.setOrder(this);
     }
 
-    public void remove(LineCart line) {
+    public void remove(Line line) {
         lines.remove(line);
         line.setOrder(null);
     }
 
-    public void addAudit(AuditCart audit) {
+    public void addAudit(Audit audit) {
         audits.add(audit);
         audit.setOrder(this);
     }
 
-    public void removeAudit(AuditCart audit) {
+    public void removeAudit(Audit audit) {
         audits.remove(audit);
         audit.setOrder(null);
     }
 
-    public void addAttachment(AttachmentCart attachment) {
+    public void addAttachment(Attachment attachment) {
         attachments.remove(attachment);
         attachment.setOrder(this);
     }
 
-    public void removeAttachment(AttachmentCart attachment) {
+    public void removeAttachment(Attachment attachment) {
         attachments.remove(attachment);
         attachment.setOrder(null);
     }

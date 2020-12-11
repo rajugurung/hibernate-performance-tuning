@@ -11,18 +11,18 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity
-@Table(name = "ATTACHMENT")
+@Entity(name = "AuditCart")
+@Table(name = "AUDIT")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class AttachmentCart {
+@AllArgsConstructor
+public class Audit {
     @Id
     private Long id;
-    private String location;
+    private String action;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude
     @ManyToOne
-    private OrderCart order;
+    private Order order;
 }

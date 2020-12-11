@@ -30,7 +30,7 @@ public class OrderCartRepositoryIT {
     // Returns 11085 orders, sum of noOfLines * noOfAttachments * noOfAudits for each orders.
     @Test
     public void findOrderByOrderIdBetween() {
-        List<OrderCart> orders = orderRepo.findOrderByOrderIdBetween(1l, 10l);
+        List<Order> orders = orderRepo.findOrderByOrderIdBetween(1l, 10l);
         assertEquals(10, orders.size());
         assertEquals(310, stat.getEntityLoadCount());
         assertEquals(0, stat.getCollectionFetchCount());
@@ -41,7 +41,7 @@ public class OrderCartRepositoryIT {
     // returns 10 orders, but query run is the same as above. so db i think returns 11085 orders.
     @Test
     public void findOrderByOrderIdBetween_returnsSet() {
-        Set<OrderCart> orders = orderRepo.findOrderByOrderIdBetween_returnsSet(1l, 10l);
+        Set<Order> orders = orderRepo.findOrderByOrderIdBetween_returnsSet(1l, 10l);
         assertEquals(10, orders.size());
         assertEquals(310, stat.getEntityLoadCount());
         assertEquals(0, stat.getCollectionFetchCount());
@@ -51,7 +51,7 @@ public class OrderCartRepositoryIT {
 
     @Test
     public void findOrderByOrderIdBetween_useDistinct() {
-        List<OrderCart> orders = orderRepo.findOrderByOrderIdBetween_useDistinct(1l, 10l);
+        List<Order> orders = orderRepo.findOrderByOrderIdBetween_useDistinct(1l, 10l);
         assertEquals(10, orders.size());
         assertEquals(310, stat.getEntityLoadCount());
         assertEquals(0, stat.getCollectionFetchCount());
