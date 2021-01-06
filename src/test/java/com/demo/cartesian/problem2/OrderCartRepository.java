@@ -1,4 +1,4 @@
-package com.demo.cartesian.problem;
+package com.demo.cartesian.problem2;
 
 import java.util.List;
 import java.util.Set;
@@ -9,7 +9,6 @@ import org.springframework.data.repository.query.Param;
 
 public interface OrderCartRepository extends JpaRepository<Order, Long> {
     
-    // returns 11085 records
     @Query(value = "Select o from OrderCart o left join fetch o.lines left join fetch o.audits left join fetch o.attachments " +
                     "where o.id >= :fromOrdreId and o.id <= :toOrderId")
     List<Order> findOrderByOrderIdBetween(@Param("fromOrdreId") Long fromOrderId,

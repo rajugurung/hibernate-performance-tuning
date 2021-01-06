@@ -1,4 +1,4 @@
-package com.demo.cartesian.problem;
+package com.demo.cartesian.problem2;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -11,15 +11,15 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@Entity(name = "AuditCart")
-@Table(name = "AUDIT")
+@Entity(name = "AttachmentCart")
+@Table(name = "ATTACHMENT")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Audit {
+public class Attachment {
     @Id
     private Long id;
-    private String action;
+    private String location;
 
     @ToString.Exclude
     @EqualsAndHashCode.Exclude

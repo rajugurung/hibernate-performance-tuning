@@ -1,4 +1,4 @@
-package com.demo.cartesian.problem;
+package com.demo.cartesian.problem2;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -27,25 +27,21 @@ public class OrderCartRepositoryIT {
         stat = entityManager.unwrap(Session.class).getSessionFactory().getStatistics();
     }
 
-    // Returns 11085 orders, sum of noOfLines * noOfAttachments * noOfAudits for each orders.
+    // sum of noOfLines * noOfAttachments * noOfAudits for each orders.
     @Test
     public void findOrderByOrderIdBetween() {
         List<Order> orders = orderRepo.findOrderByOrderIdBetween(1l, 10l);
-        assertEquals(10, orders.size());
+        assertEquals(10000, orders.size());
         assertEquals(310, stat.getEntityLoadCount());
-        assertEquals(0, stat.getCollectionFetchCount());
-        assertEquals(1, stat.getQueryExecutionCount());
         assertEquals(1, stat.getPrepareStatementCount());
     }
 
-    // returns 10 orders, but query run is the same as above. so db i think returns 11085 orders.
+    // returns 10 orders, but query run is the same as above. so db i think returns 10000 orders.
     @Test
     public void findOrderByOrderIdBetween_returnsSet() {
         Set<Order> orders = orderRepo.findOrderByOrderIdBetween_returnsSet(1l, 10l);
         assertEquals(10, orders.size());
         assertEquals(310, stat.getEntityLoadCount());
-        assertEquals(0, stat.getCollectionFetchCount());
-        assertEquals(1, stat.getQueryExecutionCount());
         assertEquals(1, stat.getPrepareStatementCount());
     }
 
@@ -55,10 +51,6 @@ public class OrderCartRepositoryIT {
         assertEquals(10, orders.size());
         assertEquals(310, stat.getEntityLoadCount());
         assertEquals(0, stat.getCollectionFetchCount());
-        assertEquals(1, stat.getQueryExecutionCount());
         assertEquals(1, stat.getPrepareStatementCount());
     }
-
-
-    
 }
